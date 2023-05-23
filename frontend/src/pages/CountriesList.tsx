@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import { useQuery } from "@apollo/client";
@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import Form from "react-bootstrap/Form";
 
 interface ICountry {
   code: string;
@@ -17,6 +18,9 @@ interface ICountry {
 
 function CountriesList() {
   const { code } = useParams();
+
+  const [searchCountry, setSearchCountry] = useState<string | undefined>();
+
   const { loading, error, data } = useQuery(GET_COUNTRIES, {
     variables: { code: code },
   });
@@ -24,12 +28,21 @@ function CountriesList() {
   if (loading) return <p>loading...</p>;
   if (error) return <p>Error !</p>;
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchCountry(e.target.value)
+  }
+
   return (
     data && (
       <Container className="text-center">
+        <Form>
+          <Form.Group className="mb-3" >
+            <Form.Control type="text" placeholder="Which country are you looking for?" onChange={handleSearch} value={searchCountry} />
+          </Form.Group>
+        </Form>
         <h1>Countries:</h1>
         <Row>
-          {data.continent.countries.map((country: ICountry) => (
+          {data.continent.countries.filter((country: ICountry) => country.name.toLowerCase().includes(searchCountry ?? "")).map((country: ICountry) => (
             <Col key={country.name} xs={12} sm={6} md={4} lg={3} xl={2}>
               <Card key={country.name} style={{ height: "10rem" }}>
                 <Link

@@ -1,28 +1,18 @@
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
+import { CONTINENTS } from "../graphql/gql";
 
 interface IContinent {
-  code: number;
+  code: string;
   name: string;
 }
 
-const CONTINENTS = gql`
-  query {
-    continents {
-      code
-      name
-    }
-  }
-`;
-
 function ContinentsList() {
   const { loading, error, data } = useQuery(CONTINENTS);
-
-  console.log(data);
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>Error !</p>;

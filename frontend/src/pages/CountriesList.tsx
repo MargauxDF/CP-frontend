@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import { useQuery } from "@apollo/client";
-import { COUNTRIES } from "../graphql/gql";
+import { GET_COUNTRIES } from "../graphql/gql";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -17,7 +17,7 @@ interface ICountry {
 
 function CountriesList() {
   const { code } = useParams();
-  const { loading, error, data } = useQuery(COUNTRIES, {
+  const { loading, error, data } = useQuery(GET_COUNTRIES, {
     variables: { code: code },
   });
 
@@ -31,7 +31,7 @@ function CountriesList() {
         <Row>
           {data.continent.countries.map((country: ICountry) => (
             <Col key={country.name} xs={12} sm={6} md={4} lg={3} xl={2}>
-              <Card key={country.name} style={{ height: '10rem' }}>
+              <Card key={country.name} style={{ height: "10rem" }}>
                 <Link
                   to={`/continent/${code}/country/${country.code}`}
                   className="link-continent"

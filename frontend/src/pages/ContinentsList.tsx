@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
-import { CONTINENTS } from "../graphql/gql";
+import { GET_CONTINENTS } from "../graphql/gql";
 
 interface IContinent {
   code: string;
@@ -12,7 +12,7 @@ interface IContinent {
 }
 
 function ContinentsList() {
-  const { loading, error, data } = useQuery(CONTINENTS);
+  const { loading, error, data } = useQuery(GET_CONTINENTS);
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>Error !</p>;
